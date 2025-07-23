@@ -1,0 +1,21 @@
+replicaCount: 1
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  hosts:
+    - host: whoami.argo.olympy.de
+      paths:
+        - /
+  tls:
+    - hosts:
+        - whoami.argo.olympy.de
+      secretName: acme
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: authentik-forwardauth@kubernetescrd
+service:
+  annotations:
+    external-mdns.blakecovarrubias.com/hostnames: "whoami"
+
+
